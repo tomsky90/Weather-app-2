@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+  min-width: 100%;
+  min-height: 100vh;
+  background-image: url(./img/sunny-landscape.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+header {
+  min-height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header h1 {
+  color: white;
+  text-transform: uppercase;
+  font-size: 60px;
+}
+
+main {
+  min-height: 30vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+main .houerly-forcast {
+  color: black;
+  text-align: center;
+  width: 150px;
+  height: 170px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  margin: 10px;
+}
+
+main .houerly-forcast img {
+  width: 40px;
+  height: 40px;
+}
+
+main p {
+  margin-bottom: 10px;
+}
+
+main .date {
+  font-size: 16px;
+}
+
+main .temperature {
+  font-size: 20px;
+}
+
+main .weather {
+  font-size: 16px;
+}
+
+form {
+  display: flex;
+  min-height: 20vh;
+  justify-content: center;
+  align-items: center;
+}
+
+form ::placeholder {
+  color: white;
+  opacity: 1;
+}
+
+form input,
+select {
+  font-size: 30px;
+  padding: 10px 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid white;
+  outline: 2px solid white;
+}
+
+form select {
+  margin-left: 10px;
+}
+
+form input::placeholder {
+  color: gray;
+}
+
+form button {
+  font-size: 30px;
+  padding: 10px;
+  border: 2px solid white;
+  outline: 2px solid white;
+}
+
+form button:hover {
+  cursor: pointer;
+  background-color: orangered;
+}
+
+@media only screen and (max-width: 600px) {
+  main .houerly-forcast {
+    width: 60%;
+    height: 150px;
+  }
+
+  form input {
+    font-size: 20px;
+    padding: 10px 20px;
+  }
+
+  form button {
+    font-size: 20px;
+    padding: 10px;
+  }
+
+  main .houerly-forcast img {
+    width: 40px;
+    height: 40px;
+  }
+}
