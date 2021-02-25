@@ -124,18 +124,39 @@ main .current p {
 
 @media only screen and (max-width: 600px) {
   main .houerly-forcast {
-    width: 60%;
-    height: 150px;
+    width: 90%;
+    height: 50px;
+  }
+
+  main .houerly-forcast p {
+    font-size: 14px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 
   form input {
     font-size: 20px;
     padding: 10px 20px;
+    font-size: 20px;
+    width: 70%;
+    margin-bottom: 20px;
+    margin-left: 35px;
   }
 
   form button {
     font-size: 20px;
     padding: 10px;
+  }
+
+  form select {
+    width: 68%;
+    font-size: 20px;
+    margin-left: 0;
   }
 
   main .houerly-forcast img {

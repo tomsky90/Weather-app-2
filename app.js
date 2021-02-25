@@ -40,7 +40,7 @@ class App extends React.Component {
           this.setState({
             date: todaydate,
             city: this.state.value,
-            list: data.list.slice(0, 14),
+            list: data.list.slice(0, 6),
             error: false,
             value: "",
             flag: false,
@@ -141,7 +141,7 @@ class App extends React.Component {
             <option
               value={`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.value}&units=metric&appid=${APIkey}`}
             >
-              3 hour forcast
+              24 hour forcast
             </option>
             <option
               value={`https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&units=metric&APPID=${APIkey}`}
