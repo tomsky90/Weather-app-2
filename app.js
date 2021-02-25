@@ -3,12 +3,17 @@ const imgs = ["./img/sun.png", "./img/cloud.png"];
 
 class App extends React.Component {
   state = {
+    flag: false,
+    search: false,
     value: "London",
     date: "",
     city: "",
+    temp: "",
+    weather: "",
     list: [],
     error: false,
   };
+
   handleInput = (e) => {
     this.setState({
       value: e.target.value,
@@ -17,36 +22,84 @@ class App extends React.Component {
 
   handleSearch = (e) => {
     e.preventDefault(e);
-    const API = `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.value}&units=metric&appid=${APIkey}`;
-
-    fetch(API)
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        }
-        throw Error("Nie udało sie");
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        const todaydate = new Date().toLocaleString().slice(0, 10);
-        this.setState({
-          date: todaydate,
-          city: this.state.value,
-          list: data.list.slice(0, 14),
-          error: false,
-          value: "",
+    const API = this.state.search;
+    if (
+      this.state.search ===
+      `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.value}&units=metric&appid=${APIkey}`
+    ) {
+      fetch(API)
+        .then((response) => {
+          if (response.ok) {
+            return response;
+          }
+          throw Error("Nie udało sie");
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          const todaydate = new Date().toLocaleString().slice(0, 10);
+          this.setState({
+            date: todaydate,
+            city: this.state.value,
+            list: data.list.slice(0, 14),
+            error: false,
+            value: "",
+            flag: false,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({
+            error: true,
+            value: "",
+            date: "",
+            city: "",
+            list: [],
+          });
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          error: true,
-          value: "",
-          date: "",
-          city: "",
-          list: [],
+    } else if (
+      this.state.search ===
+      `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&units=metric&APPID=${APIkey}`
+    ) {
+      fetch(API)
+        .then((response) => {
+          if (response.ok) {
+            return response;
+          }
+          throw Error("Nie udało sie");
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          const todaydate = new Date().toLocaleString().slice(0, 10);
+          const temperature = (data.main.temp * 1).toFixed(1);
+          this.setState({
+            date: todaydate,
+            city: this.state.value,
+            temp: temperature,
+            weather: data.weather[0].description,
+            error: false,
+            value: "",
+            flag: true,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({
+            error: true,
+            value: "",
+            date: "",
+            city: "",
+            temp: "",
+            weather: "",
+          });
         });
-      });
+    } else {
+      alert("choose one option");
+    }
+  };
+  handleWeatherSelect = (e) => {
+    this.setState({
+      search: e.target.value,
+    });
   };
   render() {
     let weatherImg = "";
@@ -83,6 +136,19 @@ class App extends React.Component {
               <i className="fas fa-search"></i>
             </button>
           </label>
+          <select value={this.state.search} onChange={this.handleWeatherSelect}>
+            <option value="">--Select search option--</option>
+            <option
+              value={`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.value}&units=metric&appid=${APIkey}`}
+            >
+              3 hour forcast
+            </option>
+            <option
+              value={`https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&units=metric&APPID=${APIkey}`}
+            >
+              Current Weather
+            </option>
+          </select>
         </form>
         <header>
           <h1>
@@ -91,7 +157,26 @@ class App extends React.Component {
               : this.state.city}
           </h1>
         </header>
-        <main>{infoList}</main>
+        <main>
+          {this.state.flag ? (
+            <div>
+              <header>
+                {/* <h1>{this.state.city && this.state.city}</h1> */}
+              </header>
+              <main className="current">
+                <p className="temperature">
+                  {this.state.temp}{" "}
+                  {this.state.temp ? <span>&#176;C</span> : null}
+                </p>
+                <p className="date">{this.state.date}</p>
+
+                <p className="weather">{this.state.weather}</p>
+              </main>
+            </div>
+          ) : (
+            infoList
+          )}
+        </main>
       </div>
     );
   }
