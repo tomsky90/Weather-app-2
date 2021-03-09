@@ -11,28 +11,25 @@ html {
 .wrapper {
   min-width: 100%;
   min-height: 100vh;
-  background-image: url(./img/sunset.jpg);
+  background-image: url(./img/sunny-landscape.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
 
-header {
-  min-height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-header h1 {
+main h1 {
   color: white;
   text-transform: uppercase;
-  font-size: 60px;
+  font-size: 40px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 main {
   min-height: 30vh;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -56,6 +53,7 @@ main .houerly-forcast img {
 }
 
 main p {
+  width: 25%;
   margin-bottom: 10px;
 }
 
@@ -114,15 +112,17 @@ form button:hover {
 }
 
 main .current {
+  text-align: center;
   display: flex;
   flex-direction: column;
+  margin-top: 100px;
 }
 
 main .current p {
   font-size: 30px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   main .houerly-forcast {
     width: 90%;
     height: 50px;

@@ -1,11 +1,9 @@
-const APIkey = "a401cd603ee800caa57e2a96c2193dbe";
-const imgs = ["./img/sun.png", "./img/cloud.png"];
 
 class App extends React.Component {
   state = {
     flag: false,
-    search: false,
     value: "London",
+    search: false,
     date: "",
     city: "",
     temp: "",
@@ -17,6 +15,12 @@ class App extends React.Component {
   handleInput = (e) => {
     this.setState({
       value: e.target.value,
+    });
+  };
+
+  handleWeatherSelect = (e) => {
+    this.setState({
+      search: e.target.value,
     });
   };
 
@@ -38,12 +42,12 @@ class App extends React.Component {
         .then((data) => {
           const todaydate = new Date().toLocaleString().slice(0, 10);
           this.setState({
+            flag: "forcast",
             date: todaydate,
             city: this.state.value,
             list: data.list.slice(0, 6),
             error: false,
             value: "",
-            flag: false,
           });
         })
         .catch((err) => {
@@ -54,6 +58,7 @@ class App extends React.Component {
             date: "",
             city: "",
             list: [],
+            flag: false,
           });
         });
     } else if (
@@ -78,7 +83,7 @@ class App extends React.Component {
             weather: data.weather[0].description,
             error: false,
             value: "",
-            flag: true,
+            flag: "current",
           });
         })
         .catch((err) => {
@@ -90,96 +95,34 @@ class App extends React.Component {
             city: "",
             temp: "",
             weather: "",
+            flag: false,
           });
         });
     } else {
       alert("choose one option");
     }
   };
-  handleWeatherSelect = (e) => {
-    this.setState({
-      search: e.target.value,
-    });
-  };
+
   render() {
-    let weatherImg = "";
-    const infoList = this.state.list.map((item) => {
-      if (item.weather[0].main === "Clouds") {
-        weatherImg = <img src="./img/cloud.png" />;
-      } else if (item.weather[0].main === "Clear") {
-        weatherImg = <img src="./img/sun.png" />;
-      }
-      return (
-        <div key={item.dt} className="houerly-forcast">
-          <p className="date">{item.dt_txt}</p>
-          <p className="temperature">
-            {(item.main.temp * 1).toFixed(1)}{" "}
-            {item.main.temp ? <span>&#176;C</span> : null}
-          </p>
-          <p className="weather">{item.weather[0].description}</p>
-          {weatherImg}
-        </div>
-      );
-    });
     return (
       <div className="wrapper">
-        <form onSubmit={this.handleSearch}>
-          <label forhtml="city-Input">
-            <input
-              id="city-Input"
-              type="text"
-              value={this.state.value}
-              placeholder="SEARCH FOR A CITY"
-              onChange={this.handleInput}
-            />
-            <button>
-              <i className="fas fa-search"></i>
-            </button>
-          </label>
-          <select value={this.state.search} onChange={this.handleWeatherSelect}>
-            <option value="">--Select search option--</option>
-            <option
-              value={`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.value}&units=metric&appid=${APIkey}`}
-            >
-              24 hour forcast
-            </option>
-            <option
-              value={`https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&units=metric&APPID=${APIkey}`}
-            >
-              Current Weather
-            </option>
-          </select>
-        </form>
-        <header>
-          <h1>
-            {this.state.error
-              ? "Sorry we couldn't find your location"
-              : this.state.city}
-          </h1>
-        </header>
-        <main>
-          {this.state.flag ? (
-            <div>
-              <header>
-                {/* <h1>{this.state.city && this.state.city}</h1> */}
-              </header>
-              <main className="current">
-                <p className="temperature">
-                  {this.state.temp}{" "}
-                  {this.state.temp ? <span>&#176;C</span> : null}
-                </p>
-                <p className="date">{this.state.date}</p>
+        <Form
+          state={this.state}
+          value={this.state.value}
+          handleSearch={this.handleSearch}
+          handleInput={this.handleInput}
+          search={this.state.search}
+          weatherSelect={this.handleWeatherSelect}
+        />
 
-                <p className="weather">{this.state.weather}</p>
-              </main>
-            </div>
-          ) : (
-            infoList
-          )}
-        </main>
+        <Layout state={this.state} />
       </div>
     );
   }
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
+
+// git remote add origin https://github.com/tomsky90/Weather-app-2.git
+// git branch -M main
+// git push -u origin main
